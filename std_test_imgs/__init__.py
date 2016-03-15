@@ -1,0 +1,1 @@
+from _get_std_test_img import get_std_test_img
