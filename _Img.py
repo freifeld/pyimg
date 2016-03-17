@@ -15,6 +15,7 @@ import numpy as np
 import cv2
 from cv2 import cv
 from of.utils import FilesDirs
+from of.utils import ipshell
 #from pyvision.essentials import *
 #from pyvision.core.cvdo import Rect
 from _imshow import imshow as _imshow
@@ -81,7 +82,8 @@ class Img(np.ndarray):
         # This is important - otherwise only the explicit construction would work.
         # See PEP.
         
-        if obj is None: return # in this case, we don't need to return.
+        if obj is None: 
+            return # in this case, we don't need to return.
 
         # TODO: again, I keep info as a reimnder.
         self.info = getattr(obj, 'info', None)
@@ -224,7 +226,6 @@ class Img(np.ndarray):
                 self[:] =  cv2.imread(filename_fullpath)
             else:
                 self[:] = cv2.imread(filename_fullpath,cv.CV_LOAD_IMAGE_GRAYSCALE)
-#            print "Look! It's working!"
         except:
             raise
 #            raise CvImreadError(filename_fullpath )
