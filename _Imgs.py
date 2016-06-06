@@ -5,12 +5,14 @@ Email: freifeld@dam.brown.edu
 """
 import numpy as np
 import cv2
-from cv2 import cv
 from of.utils import FilesDirs
 #from pyvision.essentials import np,cv2
 from _Img import Img
 
- 
+from  is_opencv_legacy import is_opencv_legacy
+if is_opencv_legacy():
+    from cv2 import cv
+
 
 class Imgs(object):    
     def __init__(self):

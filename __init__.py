@@ -1,5 +1,10 @@
 import cv2
-from cv2 import cv
+
+from  is_opencv_legacy import  is_opencv_legacy
+    
+if is_opencv_legacy():
+    from cv2 import cv
+
 
 def cv2destroyAllWindows():
     try:

@@ -13,7 +13,6 @@ Email: freifeld@dam.brown.edu
 
 import numpy as np
 import cv2
-from cv2 import cv
 #from of.utils import FilesDirs
 #from of.utils import ipshell
 from of.utils import *
@@ -25,15 +24,19 @@ from _imshow import imshow as _imshow
 _NamedWindow = cv2.namedWindow
 
 
-_lcviplimage = cv.iplimage
-_lcvGetMat = cv.GetMat
-_lcvGetImage = cv.GetImage
-_lcvCreateMat = cv.CreateMat
-_lcvmat = cv.cvmat
-_lcvfromarray = cv.fromarray
+from  is_opencv_legacy import  is_opencv_legacy
+
+
+if is_opencv_legacy():
+    from cv2 import cv
+    _lcviplimage = cv.iplimage
+    _lcvGetMat = cv.GetMat
+    _lcvGetImage = cv.GetImage
+    _lcvCreateMat = cv.CreateMat
+    _lcvmat = cv.cvmat
+    _lcvfromarray = cv.fromarray
 
 _lasarray = np.asarray
-
 _lzeros = np.zeros
 _lzeros_like = np.zeros_like
 _lempty  = np.empty
@@ -48,13 +51,14 @@ class Img(np.ndarray):
         if type(input_array) in [str,np.string_]:  # Assume it is a filename.  
             input_array = cls.imread(input_array , read_grayscale = read_grayscale)
         
-        #----- enabling construction from an cv.iplimage----------
-        elif type(input_array) == _lcviplimage:
-            input_array = cls.ipl2np(input_array)
-
-        #----- enabling construction from an cv.cvmat-------------
-        elif type(input_array) == _lcvmat:
-            input_array = cls.cvmat2np(input_array)
+        elif is_opencv_legacy():
+            #----- enabling construction from an cv.iplimage----------
+            if type(input_array) == _lcviplimage:
+                input_array = cls.ipl2np(input_array)
+    
+            #----- enabling construction from an cv.cvmat-------------
+            elif type(input_array) == _lcvmat:
+                input_array = cls.cvmat2np(input_array)
 
 
         # Verify we have a numpy ndarray.    
@@ -106,7 +110,8 @@ class Img(np.ndarray):
             winname = 'winname'
         if not isinstance(winname,str):
             raise TypeError(type(winname))
-        _NamedWindow(winname,cv.CV_WINDOW_NORMAL)
+        cv2.namedWindow(winname,cv2.WINDOW_NORMAL)  
+#        _NamedWindow(winname,cv.CV_WINDOW_NORMAL)
 
 
         _imshow(self,winname,
