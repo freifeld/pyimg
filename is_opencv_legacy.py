@@ -6,6 +6,8 @@ Created on Mon Jun  6 17:01:14 2016
 """
 
 import cv2
-def is_opencv_legacy():
+def _is_opencv_legacy():
     return cv2.__version__.startswith('2')
+    
+is_opencv_legacy = _is_opencv_legacy()
     
