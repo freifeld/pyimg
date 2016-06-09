@@ -27,7 +27,7 @@ _NamedWindow = cv2.namedWindow
 from  is_opencv_legacy import  is_opencv_legacy
 
 
-if is_opencv_legacy():
+if is_opencv_legacy:
     from cv2 import cv
     _lcviplimage = cv.iplimage
     _lcvGetMat = cv.GetMat
@@ -51,7 +51,7 @@ class Img(np.ndarray):
         if type(input_array) in [str,np.string_]:  # Assume it is a filename.  
             input_array = cls.imread(input_array , read_grayscale = read_grayscale)
         
-        elif is_opencv_legacy():
+        elif is_opencv_legacy:
             #----- enabling construction from an cv.iplimage----------
             if type(input_array) == _lcviplimage:
                 input_array = cls.ipl2np(input_array)
