@@ -2,7 +2,7 @@ import cv2
 
 from  is_opencv_legacy import  is_opencv_legacy
     
-if is_opencv_legacy():
+if is_opencv_legacy:
     from cv2 import cv
 
 
