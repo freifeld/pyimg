@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 """
-This is one of my first python files ever... And it shows. 
+This is one of my first python files ever (its first version was probably created around 2009)... And it shows. 
+Also, it was created with an old version of opencv, before the introduction of "cv2.so".
+I sometimes update/improve it incrementally by replacing the cv stuff with the cv2 alternatives.
 
-It was created with an old version of opencv, before the introduction 
-of "cv2".
-Whenever I have the time I update it incrementally by replacing
-the cv stuff with the cv2 alternatives.
+Update (June 9, 2016): Turns out OpenCV 3.* no longer has cv.py (but still has the cv2.so). Started adjusting the code.
 
 Author: Oren Freifeld
-Email: freifeld@dam.brown.edu
+Email: freifeld@csail.mit.edu
 """
 
 import numpy as np
