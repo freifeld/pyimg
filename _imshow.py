@@ -8,7 +8,6 @@ def imshow(self,winname,
      
     if divide_by_max == True:
         float_max_val = self.max()
-#    pyvision.ipshell()
     if not self.dtype in (np.float32,np.float64,np.uint16):#'float32':        
         try:       # Start optimistic... After all, "Hope springs ethernal."
             _imshow(winname,self)
@@ -18,7 +17,7 @@ def imshow(self,winname,
             # copy() should solve it. 
             if self.dtype == bool: # bool is not supported in _imshow        
                 _imshow(winname,255 * self.astype(np.uint8).copy())
-##                _imshow(winname,255 * np.uint8(self).copy())
+##              _imshow(winname,255 * np.uint8(self).copy())
                 return
             _imshow(winname,self.copy())
             return

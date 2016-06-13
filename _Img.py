@@ -12,8 +12,8 @@ Email: freifeld@csail.mit.edu
 
 import numpy as np
 import cv2
-#from of.utils import FilesDirs
-#from of.utils import ipshell
+from pylab import plt
+
 from of.utils import *
 #from pyvision.essentials import *
 #from pyvision.core.cvdo import Rect
@@ -92,82 +92,33 @@ class Img(np.ndarray):
         # TODO: again, I keep info as a reimnder.
         self.info = getattr(obj, 'info', None)
         
-    def imshow_pylab(self):
-        plt.imshow( self ,interpolation = 'nearest' )
+    def imshow_matplotlib(self,*args,**kwargs):
+        plt.imshow( self,*args,interpolation = 'nearest',**kwargs )
     def imshow(self,winname = None ,
                option = 'opencv',
                float_min_val = 0.0,
                float_max_val = 1.0,
                divide_by_max=False):        
         """A thin wrapper to imshow"""
-        # With time, the wrapper became a bit too long...
-        # So it has its own module now.    
-        if not option == 'opencv':
-            print """TODO: add the pylab option"""
+        if option in ['pylab','matplotlib']:
+            self.imshow_matplotlib()
+            return    
+        elif not option == 'opencv':            
             raise NotImplementedError        
         if winname is None:
             winname = 'winname'
         if not isinstance(winname,str):
             raise TypeError(type(winname))
-        cv2.namedWindow(winname,cv2.WINDOW_NORMAL)  
-#        _NamedWindow(winname,cv.CV_WINDOW_NORMAL)
-
-
+        cv2.namedWindow(winname,cv2.WINDOW_NORMAL) 
         _imshow(self,winname,
                      option,float_min_val,float_max_val,divide_by_max)
-##
-##        if not self.dtype == 'float32':        
-##            try:       # Start optimistic... After all, "Hope springs ethernal."
-##                cv.imshow(winname,self)
-##            except:            
-##                # if numpy played with the memory, opencv won't like it.
-##                # copy() should solve it. 
-##                if self.dtype == bool: # bool is not supported in cv.imshow        
-##                    cv.imshow(winname,255 * self.astype(np.uint8).copy())
-##    ##                cv.imshow(winname,255 * np.uint8(self).copy())
-##                    return
-##                cv.imshow(winname,self.copy())
-##        else:
-##            # If min/max is 0/1 then just let opencv do its thing:
-##            # map [0,1] to [0,255]
-##            if float_min_val == 0.0 and float_max_val == 1.0:
-##                cv.imshow(winname,self)  # the easy case.
-##            else:
-##                if float_max_val <= float_min_val:  raise ValueError
-##                if float_min_val >= 0:
-##                    #We will show a grayscale image.                  
-##                    # We are going to modify the image, so create a
-##                    # copy to avoid affecting the source.
-##                    _self  =  self.copy() 
-##                    _self -=  float_min_val
-##                    _self /=  (float_max_val - float_min_val)
-##                    # should now be btwn 0 and 1
-##                    cv.imshow(winname,_self)
-##                else:
-##                    # We will show an RGB image.
-##                    if self.ndim != 2:
-##                        raise ShapeError(self.shape)
-##                    _self_n = self.copy()
-##                    _self_p = self.copy()
-##                     
-##                              
-##                    _self_p[(_self_p<0).nonzero()]=0.0  # is this the fastest way? 
-##                    _self_n[(_self_n>0).nonzero()]=0.0
-##                    _self_z = _lzeros_like(self)
-##                    _self_z[(self==0).nonzero()] = 1.0
-##                    R = _self_p / float_max_val
-##                    G = _self_z
-##                    B = _self_n / (float_min_val) # B should now be positive.
-##                    RGB_imsz = list(self.shape)+[3]
-##                    _self = _lzeros( RGB_imsz,dtype = self.dtype)
-##                    _self[:,:,0] = R
-##                    _self[:,:,1] = G
-##                    _self[:,:,2] = B
-##                    cv.imshow(winname,_self)
+
+
 
         return self
     @staticmethod
     def waitKey(delay = None):
+        """Delay in miliseconds"""
         if delay == None:
             return cv2.waitKey()
         else:
